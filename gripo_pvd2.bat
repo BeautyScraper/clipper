@@ -1,0 +1,1 @@
+python "C:\Personal\Developed\imageClasher\gripo.py" --inputDir "C:\Personal\Games\Fapelo\test\Result" --cfgfile gripo.cfg --rows 2
