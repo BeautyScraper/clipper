@@ -1,4 +1,5 @@
 from pathlib import Path
+from random import shuffle
 from tqdm import tqdm
 import pandas as pd
 import re
@@ -11,7 +12,9 @@ def extract_selected_clip(selected_clip_folder, extracted_dir, output_folder, in
     output_folder = Path(output_folder)
     input_folder = Path(input_folder)
 
-    for image_file_path in tqdm(selected_clip_folder.glob("*.jpg"), desc='Extracting selected clips', unit='image'):
+    file_list = [ x for x in selected_clip_folder.glob("*.jpg")]
+    shuffle(file_list)
+    for image_file_path in tqdm(file_list, desc='Extracting selected clips', unit='image'):
         clip_number = int(re.search(r'_clip_(\d+)_', image_file_path.stem).group(1))
 
         csv_file_path = output_folder / f"{image_file_path.stem.split('_clip_')[0]}_info.csv"
@@ -33,15 +36,17 @@ def extract_selected_clip(selected_clip_folder, extracted_dir, output_folder, in
         end_frame = int(clip_info['EndFrameNumber'])
         
         clip_output_path = extracted_dir / f"{video_name}_clip_{clip_number}.mp4"
-
-        if not clip_output_path.exists():
-            with VideoFileClip(str(video_path)) as video:
-                clip_duration = video.duration
-                start_time = max(0, start_frame / video.fps)
-                end_time = min(clip_duration, end_frame / video.fps)
-                clip = video.subclip(start_time, end_time)
-                clip.write_videofile(str(clip_output_path), codec="libx264", audio_codec="aac")
-        image_file_path.unlink()
+        try:
+            if not clip_output_path.exists():
+                with VideoFileClip(str(video_path)) as video:
+                    clip_duration = video.duration
+                    start_time = max(0, start_frame / video.fps)
+                    end_time = min(clip_duration, end_frame / video.fps)
+                    clip = video.subclip(start_time, end_time)
+                    clip.write_videofile(str(clip_output_path), codec="libx264", audio_codec="aac")
+            image_file_path.unlink()
+        except :
+            pass
     print("Clips extraction completed.")
 
 # Add this function call in your main() function

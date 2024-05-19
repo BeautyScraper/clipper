@@ -1,1 +1,2 @@
-python "C:\Personal\Developed\imageClasher\gripo.py" --inputDir "C:\Personal\Games\Fapelo\test\Result" --cfgfile gripo.cfg --rows 2
+python "D:\Developed\Automation\imageClasher\gripo.py" --inputDir "C:\dumpinggrounds\clipper_data\Result" --cfgfile gripo.cfg --rows 2 --order date
+REM python D:\Developed\Automation\clipper\clip_processor.py
