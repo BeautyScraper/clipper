@@ -127,7 +127,8 @@ def del_done_videos(input_folder, selected_clip_folder, output_folder):
 def main():
     input_folder = Path(r"D:\paradise\stuff\new\to_be_clipped")
     output_folder = Path(r"C:\dumpinggrounds\clipper_data\Result")
-
+    input_folder.mkdir(exist_ok=True,parents=True)
+    output_folder.mkdir(exist_ok=True,parents=True)
     clip_duration_seconds = 30  # 3 minutes
     frames_per_clip = 1
     records_file = Path("processed_videos.txt")
@@ -137,7 +138,8 @@ def main():
     selected_clip_folder2.mkdir(exist_ok=True)
     extracted_dir = Path(r"D:\paradise\stuff\new\clips")
     extracted_dir.mkdir(exist_ok=True)
-    extracted_dir2 = Path(r"D:\paradise\stuff\new\pvd_known")
+    extracted_dir2 = Path(r"D:\paradise\stuff\new\pvd2\extractedVideo")
+    extracted_dir2.mkdir(exist_ok=True)
 
     process_all_videos(input_folder, output_folder, clip_duration_seconds, frames_per_clip, records_file, selected_clip_folder, extracted_dir)
     extract_selected_clip(selected_clip_folder, extracted_dir, output_folder, input_folder) 
